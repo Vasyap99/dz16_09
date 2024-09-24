@@ -117,13 +117,41 @@ public class BookDAO{
 
     /// 
     public List<Book> listLibrary(int id) {
-        return null;
+        List<Book>p=new ArrayList<>();
+        try{
+            Statement s=connection.createStatement();
+            ResultSet rs=s.executeQuery("select * from Book  inner join Mapping on Book.id=Mapping.book_id  inner join Library on Library.id=Mapping.library_id  where Library.id="+id);
+            while(rs.next()){
+                Book c=new Book();
+                c.setId(rs.getInt("id"));
+                c.setName(rs.getString("name"));
+                c.setAuthor(rs.getString("author"));
+                p.add(c);
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        } 
+        return p; 
     }
     public void addToLibrary(int id,int id1) {
-        
+        try{
+            PreparedStatement ps=connection.prepareStatement("insert into Mapping(library_id,book_id) values(?,?)");
+            ps.setInt(1,id);
+            ps.setInt(2,id1);
+            ps.executeUpdate(); 
+        }catch(Exception e){
+        }         
     }
     public void removeFromLibrary(int id,int id1) {
-        
+        try{
+            PreparedStatement ps=connection.prepareStatement("delete from Mapping where library_id=? and book_id=?");
+            ps.setInt(1,id);
+            ps.setInt(2,id1);
+            System.out.println(ps);
+            ps.executeUpdate(); 
+        }catch(Exception e){
+        }
     }
 
     public String toString(){
