@@ -17,17 +17,13 @@ import org.springframework.context.annotation.PropertySource;
 @Component
 @PropertySource("classpath:application.properties")
 public class BookRepositoryInFile implements BookRepository{
-    private static int N; 
-
     @Value("${kok.db.url}")
-    private String URL;//="jdbc:postgresql://localhost:5432/library";
+    private String URL;
     @Value("${kok.db.username}")
-    private String USERNAME;//="postgres";
+    private String USERNAME;
     @Value("${kok.db.password}")
-    private String PASSWORD;//="KooKo_099";
+    private String PASSWORD;
     private Connection connection;
-
-    public int getN(){return N;}
 
     static{
         try{
@@ -49,16 +45,6 @@ public class BookRepositoryInFile implements BookRepository{
         }catch(Exception e){
             e.printStackTrace();
         }
-        try{
-            Statement s=connection.createStatement();
-            ResultSet rs=s.executeQuery("select max(id) from Book");
-            while(rs.next()){
-                N=rs.getInt("max")+1;
-            }
-            
-        }catch(Exception e){
-            e.printStackTrace();
-        } 
     }
 
     {
@@ -100,10 +86,9 @@ public class BookRepositoryInFile implements BookRepository{
     @Override
     public void save(Book book){
         try{
-            PreparedStatement ps=connection.prepareStatement("insert into Book(id,name,author) values(?,?,?)");
-            ps.setInt(1,N++); 
-            ps.setString(2,book.getName());
-            ps.setString(3,book.getAuthor());
+            PreparedStatement ps=connection.prepareStatement("insert into Book(name,author) values(?,?)");
+            ps.setString(1,book.getName());
+            ps.setString(2,book.getAuthor());
             ps.executeUpdate(); 
         }catch(Exception e){
         } 
