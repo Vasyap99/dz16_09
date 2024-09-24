@@ -1,0 +1,125 @@
+create database dz10_09 with owner=postgres encoding='UTF8';
+
+comment on database dz10_09 is 'База данных дз 10.09.24';
+
+\c dz10_09;
+
+create table if not exists public.country
+(
+    id bigserial not null primary key,
+    name text not null,
+    population bigint
+);
+
+insert into country(name,population) values('Russia',150000000);
+
+insert into country(name,population) values('UK',60000000);
+
+insert into country(name,population) values('Latvia',2500000);
+
+insert into country(name,population) values('Estonia',1700000);
+
+insert into country(name,population) values('USA',30000000);
+
+insert into country(name,population) values('Poland',80000000);
+
+insert into country(name,population) values('Belarus',25000000);
+commit;
+
+
+select * from country order by population desc limit 3;
+
+select * from country order by population asc limit 3;
+
+
+select * from country where population in
+( select MIN(population) as population
+  from country)
+order by name;
+
+SELECT AVG(population) FROM country;
+
+select name from country where population >
+( select AVG(population)
+  from country)
+order by name;
+
+select name from country where population <
+( select AVG(population)
+  from country)
+order by name;
+
+select * from country where population in
+( select MAX(population) as population
+  from country)
+order by name;
+
+
+select * from country where population in
+( select MIN(population) as population
+  from country)
+order by name;
+
+
+-- 2
+
+
+create table if not exists public.driver
+(
+    id bigserial not null primary key,
+    name text not null
+);
+
+
+create table if not exists public.engine
+(
+    id bigserial not null primary key,
+    name text not null,
+    power NUMERIC(9,2),
+    capacity NUMERIC(9,2)
+);
+
+
+create table if not exists public.car
+(
+    id bigserial not null primary key,
+    brand text not null,
+    model text not null,
+    color text not null,
+
+    driver_id bigint not null,
+    engine_id bigint not null,
+
+    FOREIGN KEY (driver_id) REFERENCES driver (id),
+    FOREIGN KEY (engine_id) REFERENCES engine (id)
+);
+
+
+insert into driver(name) values('Иванов Иван Сергеевич');
+insert into driver(name) values('Пупкин Василий Михайлович');
+insert into driver(name) values('Петров Евгений Петрович');
+insert into driver(name) values('Соколов Вадим Геннадьевич');
+
+
+insert into engine(name,power,capacity) values('Фольксваген CBZA',86,1197);
+insert into engine(name,power,capacity) values('Ауди А8 W12 BHT',450,5998);
+insert into engine(name,power,capacity) values('БМВ М47',136,1951);
+insert into engine(name,power,capacity) values('M67D40',240,3901);
+
+
+insert into car(brand,model,color,driver_id,engine_id) values('Audi','Audi 650','YELLOW',1,2);
+insert into car(brand,model,color,driver_id,engine_id) values('FW','Folkswagen Golf','BLACK',2,1);
+insert into car(brand,model,color,driver_id,engine_id) values('BMW','BMW Duster','BLACK',3,3);
+insert into car(brand,model,color,driver_id,engine_id) values('Nissan','Nissan Solaris','RED',3,4);
+
+
+select * from car full join driver on driver.id=car.driver_id full join engine on engine.id=car.engine_id;
+
+select * from car full join driver on driver.id=car.driver_id full join engine on engine.id=car.engine_id 
+         where capacity>2000 or capacity is null;
+
+select * from car full join driver on driver.id=car.driver_id full join engine on engine.id=car.engine_id 
+         where power>200 or power is null;
+
+select * from car full join driver on driver.id=car.driver_id full join engine on engine.id=car.engine_id 
+         where color='BLACK' or color is null;
