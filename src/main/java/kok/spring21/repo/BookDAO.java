@@ -119,8 +119,9 @@ public class BookDAO{
     public List<Book> listLibrary(int id) {
         List<Book>p=new ArrayList<>();
         try{
-            Statement s=connection.createStatement();
-            ResultSet rs=s.executeQuery("select * from Book  inner join Mapping on Book.id=Mapping.book_id  inner join Library on Library.id=Mapping.library_id  where Library.id="+id);
+            PreparedStatement ps=connection.prepareStatement("select * from Book  inner join Mapping on Book.id=Mapping.book_id  inner join Library on Library.id=Mapping.library_id  where Library.id=?");
+            ps.setInt(1,id);
+            ResultSet rs=ps.executeQuery(); 
             while(rs.next()){
                 Book c=new Book();
                 c.setId(rs.getInt("id"));
