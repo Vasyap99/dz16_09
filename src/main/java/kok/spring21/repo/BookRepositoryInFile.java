@@ -5,32 +5,50 @@ import java.util.*;
 import kok.spring21.models.Book;
 
 import org.springframework.stereotype.Component;
-
+import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.*;
 
+import javax.annotation.PostConstruct;
+
+
+import org.springframework.context.annotation.PropertySource;
 
 @Component
+@PropertySource("classpath:application.properties")
 public class BookRepositoryInFile implements BookRepository{
     private static int N; 
 
-    private static String URL="jdbc:postgresql://localhost:5432/library";
-    private static String USERNAME="postgres";
-    private static String PASSWORD="KooKo_099";
-    private static Connection connection;
+    @Value("${kok.db.url}")
+    private String URL;//="jdbc:postgresql://localhost:5432/library";
+    @Value("${kok.db.username}")
+    private String USERNAME;//="postgres";
+    @Value("${kok.db.password}")
+    private String PASSWORD;//="KooKo_099";
+    private Connection connection;
 
     public int getN(){return N;}
 
     static{
         try{
             Class.forName("org.postgresql.Driver");
-            connection=DriverManager.getConnection(URL,USERNAME,PASSWORD);
+            //connection=DriverManager.getConnection(URL,USERNAME,PASSWORD);
         }catch(Exception e){
         }
     } 
 
-
-    {
+    @PostConstruct
+    void postConstruct(){
+        System.out.println(">>>POSTCONSTRUCT:");
+        System.out.println(">>>"+URL);
+        System.out.println(">>>"+USERNAME);
+        System.out.println(">>>"+PASSWORD);
+        try{ 
+            System.out.println(">>>PostConstruct");
+            connection=DriverManager.getConnection(URL,USERNAME,PASSWORD); 
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         try{
             Statement s=connection.createStatement();
             ResultSet rs=s.executeQuery("select max(id) from Book");
@@ -43,8 +61,19 @@ public class BookRepositoryInFile implements BookRepository{
         } 
     }
 
+    {
+        System.out.println(">>>CL-INIT:");
+        System.out.println(">>>"+URL);
+        System.out.println(">>>"+USERNAME);
+        System.out.println(">>>"+PASSWORD);
+    }
+
     @Override
     public List<Book> getAllBooks(){
+        System.out.println(">>>GET_ALL_BOOKS:");
+        System.out.println(">>>"+URL);
+        System.out.println(">>>"+USERNAME);
+        System.out.println(">>>"+PASSWORD);
         List<Book>p=new ArrayList<>();
         try{
             Statement s=connection.createStatement();
