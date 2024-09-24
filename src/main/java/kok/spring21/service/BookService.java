@@ -11,29 +11,29 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class BookService{
-    BookRepository bookRepo;
+    BookDAO bookDAO;
 
     public void save(Book book){
-        bookRepo.save(book);
+        bookDAO.save(book);
     }
 
     public List<Book> getBooks() {
-        return bookRepo.getAllBooks();
+        return bookDAO.getAllBooks();
     }
 
     public Book getBookById(int id) {
-        return bookRepo.findById(id);
+        return bookDAO.findById(id);
     }
 
     public void deleteBook(int id) {
-        bookRepo.delete(id);
+        bookDAO.delete(id);
     }
 
     public Book updateBook(Book book) {
-       return bookRepo.update(book);
+       return bookDAO.update(book);
     }
 
     public String toString(){
-        return bookRepo.toString();
+        return bookDAO.toString();
     }
 }

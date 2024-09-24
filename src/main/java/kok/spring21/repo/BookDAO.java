@@ -16,7 +16,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Component
 @PropertySource("classpath:application.properties")
-public class BookRepositoryInFile implements BookRepository{
+public class BookDAO{
     @Value("${kok.db.url}")
     private String URL;
     @Value("${kok.db.username}")
@@ -54,7 +54,6 @@ public class BookRepositoryInFile implements BookRepository{
         System.out.println(">>>"+PASSWORD);
     }
 
-    @Override
     public List<Book> getAllBooks(){
         System.out.println(">>>GET_ALL_BOOKS:");
         System.out.println(">>>"+URL);
@@ -78,12 +77,10 @@ public class BookRepositoryInFile implements BookRepository{
         return p; 
     }
 
-    @Override
     public Book findById(int id){
         return getAllBooks().stream().filter( book -> book.getId()==id ).findAny().orElse(null);
     }
 
-    @Override
     public void save(Book book){
         try{
             PreparedStatement ps=connection.prepareStatement("insert into Book(name,author) values(?,?)");
@@ -94,7 +91,6 @@ public class BookRepositoryInFile implements BookRepository{
         } 
     }
 
-    @Override
     public Book update(Book book) {
         try{
             PreparedStatement ps=connection.prepareStatement("update Book set name=?, author=? where id=?");
@@ -110,7 +106,6 @@ public class BookRepositoryInFile implements BookRepository{
         return book;
     }
 
-    @Override
     public void delete(int id) {
         try{
             PreparedStatement ps=connection.prepareStatement("delete from Book where id=?");
