@@ -115,6 +115,17 @@ public class BookDAO{
         } 
     }
 
+    /// 
+    public List<Book> listLibrary(int id) {
+        return null;
+    }
+    public void addToLibrary(int id,int id1) {
+        
+    }
+    public void removeFromLibrary(int id,int id1) {
+        
+    }
+
     public String toString(){
         return getAllBooks().toString();
     }

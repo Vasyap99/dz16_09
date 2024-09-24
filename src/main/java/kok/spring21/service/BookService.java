@@ -36,4 +36,14 @@ public class BookService{
     public String toString(){
         return bookDAO.toString();
     }
+    ///
+    public List<Book> listLibrary(int id) {
+        return bookDAO.listLibrary(id);
+    }
+    public void addToLibrary(int id,int id1) {
+        bookDAO.addToLibrary(id,id1);
+    }
+    public void removeFromLibrary(int id,int id1) {
+        bookDAO.removeFromLibrary(id,id1);
+    }
 }
