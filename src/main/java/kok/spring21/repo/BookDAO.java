@@ -108,11 +108,23 @@ public class BookDAO{
 
     public void delete(int id) {
         try{
+            connection.setAutoCommit(false);
+            PreparedStatement p1=connection.prepareStatement("delete from Mapping where book_id=?");
+            p1.setInt(1,id); 
+            System.out.println(p1);
+            p1.executeUpdate(); 
+
             PreparedStatement ps=connection.prepareStatement("delete from Book where id=?");
             ps.setInt(1,id); 
-            ps.executeQuery(); 
+            ps.executeUpdate(); 
+
+            connection.commit();
         }catch(Exception e){
-        } 
+            e.printStackTrace(); 
+            try{connection.rollback();}catch(Exception e1){}
+        }finally{ 
+            try{connection.setAutoCommit(true);}catch(Exception e1){}
+        }
     }
 
     /// 
