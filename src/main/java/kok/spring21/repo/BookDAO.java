@@ -11,11 +11,7 @@ import java.sql.*;
 
 import javax.annotation.PostConstruct;
 
-
-import org.springframework.context.annotation.PropertySource;
-
 @Component
-@PropertySource("classpath:application.properties")
 public class BookDAO{
     @Value("${kok.db.url}")
     private String URL;
@@ -26,9 +22,8 @@ public class BookDAO{
     private Connection connection;
 
     static{
-        try{
+        try{  //загружаем драйвер СУБД
             Class.forName("org.postgresql.Driver");
-            //connection=DriverManager.getConnection(URL,USERNAME,PASSWORD);
         }catch(Exception e){
         }
     } 
