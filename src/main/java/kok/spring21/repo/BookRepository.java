@@ -3,6 +3,8 @@ package kok.spring21.repo;
 import kok.spring21.models.Book;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 public interface BookRepository{
     void save(Book book);
 

@@ -26,9 +26,8 @@ public class BookRepositoryInFile implements BookRepository{
     private Connection connection;
 
     static{
-        try{
+        try{  //загружаем драйвер СУБД
             Class.forName("org.postgresql.Driver");
-            //connection=DriverManager.getConnection(URL,USERNAME,PASSWORD);
         }catch(Exception e){
         }
     } 
@@ -42,6 +41,7 @@ public class BookRepositoryInFile implements BookRepository{
         try{ 
             System.out.println(">>>PostConstruct");
             connection=DriverManager.getConnection(URL,USERNAME,PASSWORD); 
+            connection.setAutoCommit(true);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -86,9 +86,11 @@ public class BookRepositoryInFile implements BookRepository{
     @Override
     public void save(Book book){
         try{
+            System.out.println(book.toString());
             PreparedStatement ps=connection.prepareStatement("insert into Book(name,author) values(?,?)");
             ps.setString(1,book.getName());
             ps.setString(2,book.getAuthor());
+            System.out.println(ps);
             ps.executeUpdate(); 
         }catch(Exception e){
         } 

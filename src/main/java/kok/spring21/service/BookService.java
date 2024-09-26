@@ -6,12 +6,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
-
-@AllArgsConstructor
+//@AllArgsConstructor
 @Service
 public class BookService{
-    BookRepository bookRepo;
+
+    @Autowired
+    @Qualifier("bookRepositoryInFile")
+    private BookRepository bookRepo;
 
     public void save(Book book){
         bookRepo.save(book);
