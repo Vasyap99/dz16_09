@@ -12,10 +12,7 @@ import java.sql.*;
 import javax.annotation.PostConstruct;
 
 
-import org.springframework.context.annotation.PropertySource;
-
 @Component
-@PropertySource("classpath:application.properties")
 public class BookRepositoryInFile implements BookRepository{
     @Value("${kok.db.url}")
     private String URL;
