@@ -37,6 +37,7 @@ public class BookDAO{
         try{ 
             System.out.println(">>>PostConstruct");
             connection=DriverManager.getConnection(URL,USERNAME,PASSWORD); 
+            connection.setAutoCommit(true);
         }catch(Exception e){
             e.printStackTrace();
         }
