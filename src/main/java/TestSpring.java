@@ -27,7 +27,7 @@ public class TestSpring {
         while(true){
             System.out.println("-".repeat(50));
             System.out.println(bookService.toString());
-            System.out.println("<Enter command: C R U D LL(list L) LA(add B to L) LR(remove B from L) LC(create Lib) LD(delete L), E for exit>");
+            System.out.println("<Enter command: C R U D LL(list L) L(list of Libs) LA(add B to L) LR(remove B from L) LC(create Lib) LD(delete L), E for exit>");
                 String i=s.nextLine();
                 switch(i){
                     case "C":
@@ -86,6 +86,22 @@ public class TestSpring {
                     case "E":
                         context.close();
                         return;
+                    case "LC":
+                        System.out.println("-Enter address:");
+                        n=s.nextLine();
+                        bookService.saveLib(Library.builder()
+                             .addr(n)
+                             .build() 
+                        );
+                        break;
+                    case "LD":
+                        System.out.println("-Enter lib id:");
+                        id=Integer.parseInt(s.nextLine());
+                        bookService.deleteLib(id);                       
+                        break;
+                    case "L":
+                        System.out.println(bookService.getAllLibs().toString());
+                        break;
                     default:
                         ;
                 }

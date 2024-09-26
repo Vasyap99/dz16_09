@@ -3,6 +3,7 @@ package kok.spring21.repo;
 import java.util.*;
 
 import kok.spring21.models.Book;
+import kok.spring21.models.Library;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -161,6 +162,54 @@ public class BookDAO{
             ps.executeUpdate(); 
         }catch(Exception e){
         }
+    }
+
+    public void saveLib(Library l){
+        try{
+            PreparedStatement ps=connection.prepareStatement("insert into Library(addr) values(?)");
+            ps.setString(1,l.getAddr());
+            ps.executeUpdate(); 
+        }catch(Exception e){
+        } 
+    }
+
+    public void deleteLib(int id) {
+        try{
+            connection.setAutoCommit(false);
+            PreparedStatement p1=connection.prepareStatement("delete from Mapping where library_id=?");
+            p1.setInt(1,id); 
+            System.out.println(p1);
+            p1.executeUpdate(); 
+
+            PreparedStatement ps=connection.prepareStatement("delete from Library where id=?");
+            ps.setInt(1,id); 
+            ps.executeUpdate(); 
+
+            connection.commit();
+        }catch(Exception e){
+            e.printStackTrace(); 
+            try{connection.rollback();}catch(Exception e1){}
+        }finally{ 
+            try{connection.setAutoCommit(true);}catch(Exception e1){}
+        }
+    }
+
+    public List<Library> getAllLibs(){
+        List<Library>p=new ArrayList<>();
+        try{
+            Statement s=connection.createStatement();
+            ResultSet rs=s.executeQuery("select * from Library");
+            while(rs.next()){
+                Library c=new Library();
+                c.setId(rs.getInt("id"));
+                c.setAddr(rs.getString("addr"));
+                p.add(c);
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        } 
+        return p; 
     }
 
     public String toString(){

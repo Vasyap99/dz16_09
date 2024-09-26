@@ -46,4 +46,13 @@ public class BookService{
     public void removeFromLibrary(int id,int id1) {
         bookDAO.removeFromLibrary(id,id1);
     }
+    public void saveLib(Library library){
+        bookDAO.saveLib(library);
+    }
+    public void deleteLib(int id) {
+        bookDAO.deleteLib(id);
+    }
+    public List<Library> getAllLibs(){
+        return bookDAO.getAllLibs();
+    }
 }
