@@ -1,0 +1,60 @@
+create database library with owner=postgres encoding='UTF8';
+
+\c library;
+
+create table if not exists public.Book
+(
+     id bigserial not null primary key,
+     name text not null,
+     author text not null
+);
+
+insert into Book(name,author) values('Evgenij Onegin','Pushkin');
+insert into Book(name,author) values('Mzyri','Lermontov');
+
+select * from Book;
+
+ id |      name      |  author
+----+----------------+-----------
+  1 | Evgenij Onegin | Pushkin
+  2 | Mzyri          | Lermontov
+(2 ёЄЁюъш)
+
+
+commit;
+
+-- ==========================================
+
+create table if not exists public.Library
+(
+    id bigserial not null primary key,
+    addr text not null
+);
+
+insert into Library(addr) values('addr1');
+insert into Library(addr) values('addr2');
+
+
+
+
+create table if not exists public.Mapping
+(
+    --id bigserial not null primary key,
+
+    library_id bigint not null,
+    book_id bigint not null,
+
+    FOREIGN KEY (library_id) REFERENCES Library (id),
+    FOREIGN KEY (book_id) REFERENCES Book (id),
+    
+    PRIMARY KEY(library_id,book_id)
+);
+
+insert into Mapping(library_id,book_id) values(1,1);
+insert into Mapping(library_id,book_id) values(1,2);
+insert into Mapping(library_id,book_id) values(1,5);
+
+
+insert into Mapping(library_id,book_id) values(2,6);
+insert into Mapping(library_id,book_id) values(2,2);
+insert into Mapping(library_id,book_id) values(2,5);
