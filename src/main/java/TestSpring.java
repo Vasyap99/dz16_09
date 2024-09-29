@@ -27,7 +27,7 @@ public class TestSpring {
         while(true){
             System.out.println("-".repeat(50));
             System.out.println(bookService.toString());
-            System.out.println("<Enter command: C R U D LL(list L) L(list of Libs) LA(add B to L) LR(remove B from L) LC(create Lib) LD(delete L), Extra: BN(libs for book name), E for exit>");
+            System.out.println("<Enter command: C R U D LL(list L) L(list of Libs) LA(add B to L) LR(remove B from L) LC(create Lib) LD(delete L), Extra: BN(libs for book name),BA(books for l.addr), E for exit>");
                 String i=s.nextLine();
                 switch(i){
                     case "C":
@@ -108,6 +108,12 @@ public class TestSpring {
                         String bn=s.nextLine();
                         List<Library> ll = bookService.listLibraryForBookName(bn);
                         System.out.println(ll.toString());  
+                        break;
+                    case "BA": 
+                        System.out.println("-Enter lib addr:");
+                        String ba=s.nextLine();
+                        List<Book> la = bookService.listBooksForAddr(ba);
+                        System.out.println(la.toString());  
                         break;
                     default:
                         ;

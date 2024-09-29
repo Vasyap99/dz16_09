@@ -229,6 +229,24 @@ public class BookDAO{
         } 
         return p; 
     }
+    public List<Book> listBooksForAddr(String ba){
+        List<Book>p=new ArrayList<>();
+        try{
+            PreparedStatement ps=connection.prepareStatement("select * from Book  inner join Mapping on Book.id=Mapping.book_id  inner join Library on Library.id=Mapping.library_id  where Library.addr=?");
+            ps.setString(1,ba);
+            ResultSet rs=ps.executeQuery(); 
+            while(rs.next()){
+                Book c=new Book();
+                c.setId(rs.getInt("id"));
+                c.setName(rs.getString("name"));
+                c.setAuthor(rs.getString("author"));
+                p.add(c);
+            }            
+        }catch(Exception e){
+            e.printStackTrace();
+        } 
+        return p; 
+    }
 
     public String toString(){
         return getAllBooks().toString();

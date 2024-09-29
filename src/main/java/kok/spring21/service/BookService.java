@@ -56,6 +56,9 @@ public class BookService{
     public List<Library> listLibraryForBookName(String bn){
         return bookDAO.listLibraryForBookName(bn); 
     }
+    public List<Book> listBooksForAddr(String ba){
+        return bookDAO.listBooksForAddr(ba); 
+    }
 
     public List<Library> getAllLibs(){
         return bookDAO.getAllLibs();
