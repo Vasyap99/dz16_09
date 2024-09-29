@@ -211,6 +211,24 @@ public class BookDAO{
         } 
         return p; 
     }
+    ///+++
+    public List<Library> listLibraryForBookName(String bn) {
+        List<Library>p=new ArrayList<>();
+        try{
+            PreparedStatement ps=connection.prepareStatement("select * from Library  inner join Mapping on Library.id=Mapping.library_id  inner join Book on Book.id=Mapping.book_id  where Book.name=?");
+            ps.setString(1,bn);
+            ResultSet rs=ps.executeQuery(); 
+            while(rs.next()){
+                Library c=new Library();
+                c.setId(rs.getInt("id"));
+                c.setAddr(rs.getString("addr"));
+                p.add(c);
+            }            
+        }catch(Exception e){
+            e.printStackTrace();
+        } 
+        return p; 
+    }
 
     public String toString(){
         return getAllBooks().toString();

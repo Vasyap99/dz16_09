@@ -52,6 +52,11 @@ public class BookService{
     public void deleteLib(int id) {
         bookDAO.deleteLib(id);
     }
+    ///+++
+    public List<Library> listLibraryForBookName(String bn){
+        return bookDAO.listLibraryForBookName(bn); 
+    }
+
     public List<Library> getAllLibs(){
         return bookDAO.getAllLibs();
     }
