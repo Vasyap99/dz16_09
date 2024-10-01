@@ -176,8 +176,8 @@
             </executions>
         </plugin-->
 
-
-    <plugin>  <!-- для помещения файла application.properties в jar -->
+    <!-- для помещения файла application.properties в jar -->
+    <!--plugin>  
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-resources-plugin</artifactId>
       <version>3.2.0</version>
@@ -189,10 +189,10 @@
             <goal>copy-resources</goal>
           </goals>
           <configuration>
-            <outputDirectory>${project.build.directory}/classes</outputDirectory> <!--куда в jar-е-->
+            <outputDirectory>${project.build.directory}/classes</outputDirectory> //куда в jar-е
             <resources>
               <resource>
-                <directory>src/main/java/kok/spring21/</directory>  <!--откуда в проекте-->
+                <directory>src/main/java/kok/spring21/</directory>  //откуда в проекте
                 <filtering>true</filtering>
                 <includes>
                   <include>*.properties</include>
@@ -202,7 +202,7 @@
           </configuration>
         </execution>
       </executions>
-    </plugin>
+    </plugin-->
 
     </plugins>
 
