@@ -27,7 +27,7 @@ public class BookRepositoryInFile implements BookRepository{
             Class.forName("org.postgresql.Driver");
         }catch(Exception e){
         }
-    } 
+    }
 
     @PostConstruct
     void postConstruct(){
@@ -77,7 +77,22 @@ public class BookRepositoryInFile implements BookRepository{
 
     @Override
     public Book findById(int id){
-        return getAllBooks().stream().filter( book -> book.getId()==id ).findAny().orElse(null);
+        Book b=null;
+        try{
+            PreparedStatement ps=connection.prepareStatement("select * from Book where id=?");
+            ps.setInt(1,id);
+            ResultSet rs=ps.executeQuery(); 
+            if(rs.next()){
+                b=new Book();
+                b.setId(rs.getInt("id"));
+                b.setName(rs.getString("name"));
+                b.setAuthor(rs.getString("author"));
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        } 
+        return b; 
     }
 
     @Override
