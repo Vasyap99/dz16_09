@@ -22,6 +22,21 @@ public class BookRepositoryInFile implements BookRepository{
     private String PASSWORD;
     private Connection connection;
 
+    public BookRepositoryInFile(@Value("${kok.db.url}")String URL,
+                                @Value("${kok.db.username}")String USERNAME,
+                                @Value("${kok.db.password}")String PASSWORD){
+        this.URL=URL;
+        this.USERNAME=USERNAME;
+        this.PASSWORD=PASSWORD;
+        try{ 
+            System.out.println(">>>PostConstruct");
+            connection=DriverManager.getConnection(URL,USERNAME,PASSWORD); 
+            connection.setAutoCommit(true);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     static{
         try{  //загружаем драйвер СУБД
             Class.forName("org.postgresql.Driver");
@@ -35,13 +50,6 @@ public class BookRepositoryInFile implements BookRepository{
         System.out.println(">>>"+URL);
         System.out.println(">>>"+USERNAME);
         System.out.println(">>>"+PASSWORD);
-        try{ 
-            System.out.println(">>>PostConstruct");
-            connection=DriverManager.getConnection(URL,USERNAME,PASSWORD); 
-            connection.setAutoCommit(true);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
     }
 
     {
