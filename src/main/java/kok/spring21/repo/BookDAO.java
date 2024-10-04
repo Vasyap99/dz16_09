@@ -14,13 +14,25 @@ import javax.annotation.PostConstruct;
 
 @Component
 public class BookDAO{
-    @Value("${kok.db.url}")
     private String URL;
-    @Value("${kok.db.username}")
     private String USERNAME;
-    @Value("${kok.db.password}")
     private String PASSWORD;
     private Connection connection;
+
+    public BookDAO(@Value("${kok.db.url}")String URL,
+                                @Value("${kok.db.username}")String USERNAME,
+                                @Value("${kok.db.password}")String PASSWORD){
+        this.URL=URL;
+        this.USERNAME=USERNAME;
+        this.PASSWORD=PASSWORD;
+        try{ 
+            System.out.println(">>>PostConstruct");
+            connection=DriverManager.getConnection(URL,USERNAME,PASSWORD); 
+            connection.setAutoCommit(true);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     static{
         try{  //загружаем драйвер СУБД
@@ -35,13 +47,6 @@ public class BookDAO{
         System.out.println(">>>"+URL);
         System.out.println(">>>"+USERNAME);
         System.out.println(">>>"+PASSWORD);
-        try{ 
-            System.out.println(">>>PostConstruct");
-            connection=DriverManager.getConnection(URL,USERNAME,PASSWORD); 
-            connection.setAutoCommit(true);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
     }
 
     {
