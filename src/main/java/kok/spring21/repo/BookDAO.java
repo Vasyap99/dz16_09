@@ -7,6 +7,7 @@ import kok.spring21.models.Library;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.*;
 
@@ -19,6 +20,7 @@ public class BookDAO{
     private String PASSWORD;
     private Connection connection;
 
+    @Autowired
     public BookDAO(@Value("${kok.db.url}")String URL,
                                 @Value("${kok.db.username}")String USERNAME,
                                 @Value("${kok.db.password}")String PASSWORD){
