@@ -14,11 +14,8 @@ import javax.annotation.PostConstruct;
 
 @Component
 public class BookRepositoryInFile implements BookRepository{
-    @Value("${kok.db.url}")
     private String URL;
-    @Value("${kok.db.username}")
     private String USERNAME;
-    @Value("${kok.db.password}")
     private String PASSWORD;
     private Connection connection;
 
