@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.sql.*;
 
 import javax.annotation.PostConstruct;
-
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 public class BookRepositoryInFile implements BookRepository{
@@ -19,6 +19,7 @@ public class BookRepositoryInFile implements BookRepository{
     private String PASSWORD;
     private Connection connection;
 
+    @Autowired 
     public BookRepositoryInFile(@Value("${kok.db.url}")String URL,
                                 @Value("${kok.db.username}")String USERNAME,
                                 @Value("${kok.db.password}")String PASSWORD){
